@@ -1,4 +1,4 @@
-@props(['field', 'item' => null])
+@props(['field'])
 
 <x-nebula::form-row :field="$field">
 
@@ -6,8 +6,7 @@
 
         <div class="flex flex-wrap gap-2">
             @foreach ($field->getColors() as $color)
-                <input
-                    {{ (old($field->getName()) ?? (Arr::get($item, $field->getName()) ?? $field->getValue())) === $color ? 'checked' : '' }}
+                <input {{ old($field->getName()) ?? $field->getValue() === $color ? 'checked' : '' }}
                     {{ $field->getRequired() ? 'required' : '' }} name="{{ $field->getName() }}"
                     id="{{ $field->getName() }}" type="radio" class="w-8 h-8 bg-current form-checkbox"
                     value="{{ $color }}" style="color: {{ $color }}" />

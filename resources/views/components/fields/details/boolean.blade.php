@@ -1,8 +1,8 @@
-@props(['field', 'item' => null])
+@props(['field'])
 
 <x-nebula::form-row :field="$field">
 
-    @if (Arr::get($item, $field->getName()) ?? $field->getValue())
+    @if ($field->getValue())
         <span class="inline-block px-3 py-1 font-mono text-sm font-medium rounded-full bg-success-100 text-success-600">
             True
         </span>

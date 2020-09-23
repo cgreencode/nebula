@@ -1,11 +1,11 @@
-@props(['field', 'item' => null])
+@props(['field'])
 
 <x-nebula::form-row :field="$field">
 
     <div x-data="{ expanded: false }">
 
         <p x-show.transition.opacity="expanded" class="mb-2 text-sm">
-            {{ Arr::get($item, $field->getName()) ?? $field->getValue() }}
+            {{ $field->getValue() }}
         </p>
 
         <button x-on:click="expanded = !expanded"

@@ -1,12 +1,11 @@
-@props(['field', 'item' => null])
+@props(['field'])
 
 <x-nebula::form-row :field="$field">
 
     <div class="space-y-2">
 
-        {{-- TODO: validate date format --}}
         <input class="block w-full max-w-lg border border-gray-300 rounded-lg shadow-sm form-input sm:text-sm"
-            id="{{ $field->getName() }}" value="{{ old($field->getName()) ?? Arr::get($item, $field->getName()) ?? $field->getValue()"
+            id="{{ $field->getName() }}" value="{{ old($field->getName()) ?? $field->getHTMLDatePickerFormatValue() }}"
             {{ $field->getRequired() ? 'required' : '' }} name="{{ $field->getName() }}" type="date">
 
         <x-nebula::error :for="$field->getName()" />

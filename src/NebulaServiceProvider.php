@@ -25,7 +25,7 @@ class NebulaServiceProvider extends ServiceProvider
         $this->mapWebRoutes();
 
         $this->resourceResolver();
-        $this->itemResolver();
+        $this->modelResolver();
         $this->dashboardResolver();
 
         if ($this->app->runningInConsole()) {
@@ -108,9 +108,9 @@ class NebulaServiceProvider extends ServiceProvider
         });
     }
 
-    public function itemResolver(): void
+    public function modelResolver(): void
     {
-        Route::bind('item', function ($value) {
+        Route::bind('model', function ($value) {
             return request()
                 ->resource
                 ->model()::withoutGlobalScopes()
