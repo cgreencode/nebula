@@ -45,24 +45,6 @@ abstract class ValueMetric extends NebulaMetric
     }
 
     /**
-     * Build the query of the current and previous metrics and run a closure on them.
-     *
-     * @param  mixed $class
-     * @param  \Closure $callback
-     * @return \Closure
-     */
-    protected function query($class, Closure $callback)
-    {
-        $current = $class::query()->withoutGlobalScopes()
-            ->whereBetween('created_at', [now()->subMonth(), now()]);
-
-        $old = $class::query()->withoutGlobalScopes()
-            ->whereBetween('created_at', [now()->subMonths(2), now()->subMonth()]);
-
-        return $callback($current, $old);
-    }
-
-    /**
      * Returns the avarage based on a given eloquent model `$class` and its column `$column`.
      *
      * @param mixed $class
@@ -73,12 +55,18 @@ abstract class ValueMetric extends NebulaMetric
     protected function average($class, $column)
     {
         return $this->getFromCache(function () use ($class, $column) {
-            return $this->query($class, function ($current, $old) use ($column) {
-                return [
-                    $current->average($column),
-                    $old->average($column),
-                ];
-            });
+            $current = $class::query()->withoutGlobalScopes()
+                ->whereBetween('created_at', [now()->subMonth(), now()])
+                ->average($column);
+
+            $old = $class::query()->withoutGlobalScopes()
+                ->whereBetween('created_at', [now()->subMonths(2), now()->subMonth()])
+                ->average($column);
+
+            return [
+                $current,
+                $old,
+            ];
         });
     }
 
@@ -92,12 +80,18 @@ abstract class ValueMetric extends NebulaMetric
     protected function count($class)
     {
         return $this->getFromCache(function () use ($class) {
-            return $this->query($class, function ($current, $old) {
-                return [
-                    $current->count(),
-                    $old->count(),
-                ];
-            });
+            $current = $class::query()->withoutGlobalScopes()
+                ->whereBetween('created_at', [now()->subMonth(), now()])
+                ->count();
+
+            $old = $class::query()->withoutGlobalScopes()
+                ->whereBetween('created_at', [now()->subMonths(2), now()->subMonth()])
+                ->count();
+
+            return [
+                $current,
+                $old,
+            ];
         });
     }
 
@@ -112,12 +106,18 @@ abstract class ValueMetric extends NebulaMetric
     protected function sum($class, $column)
     {
         return $this->getFromCache(function () use ($class, $column) {
-            return $this->query($class, function ($current, $old) use ($column) {
-                return [
-                    $current->sum($column),
-                    $old->sum($column),
-                ];
-            });
+            $current = $class::query()->withoutGlobalScopes()
+                ->whereBetween('created_at', [now()->subMonth(), now()])
+                ->sum($column);
+
+            $old = $class::query()->withoutGlobalScopes()
+                ->whereBetween('created_at', [now()->subMonths(2), now()->subMonth()])
+                ->sum($column);
+
+            return [
+                $current,
+                $old,
+            ];
         });
     }
 
@@ -132,12 +132,18 @@ abstract class ValueMetric extends NebulaMetric
     protected function max($class, $column)
     {
         return $this->getFromCache(function () use ($class, $column) {
-            return $this->query($class, function ($current, $old) use ($column) {
-                return [
-                    $current->max($column),
-                    $old->max($column),
-                ];
-            });
+            $current = $class::query()->withoutGlobalScopes()
+                ->whereBetween('created_at', [now()->subMonth(), now()])
+                ->max($column);
+
+            $old = $class::query()->withoutGlobalScopes()
+                ->whereBetween('created_at', [now()->subMonths(2), now()->subMonth()])
+                ->max($column);
+
+            return [
+                $current,
+                $old,
+            ];
         });
     }
 
@@ -152,12 +158,18 @@ abstract class ValueMetric extends NebulaMetric
     protected function min($class, $column)
     {
         return $this->getFromCache(function () use ($class, $column) {
-            return $this->query($class, function ($current, $old) use ($column) {
-                return [
-                    $current->min($column),
-                    $old->min($column),
-                ];
-            });
+            $current = $class::query()->withoutGlobalScopes()
+                ->whereBetween('created_at', [now()->subMonth(), now()])
+                ->min($column);
+
+            $old = $class::query()->withoutGlobalScopes()
+                ->whereBetween('created_at', [now()->subMonths(2), now()->subMonth()])
+                ->min($column);
+
+            return [
+                $current,
+                $old,
+            ];
         });
     }
 
