@@ -64,12 +64,24 @@ abstract class NebulaDashboard
     }
 
     /**
-     * Returns the label for the dashboard.
+     * Render the view for the dashboard.
      *
-     * @return string
+     * @return mixed
      */
-    public function label()
+    public function display()
     {
-        return __('Last month');
+        return app()->call([$this, 'render']);
+    }
+
+    /**
+     * Render the contents of the dashboard.
+     *
+     * @return \Illuminate\View\View|string
+     */
+    public function render()
+    {
+        return view('nebula::dashboards.default', [
+            'dashboard' => $this,
+        ]);
     }
 }
